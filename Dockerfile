@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre
 VOLUME /tmp
 
 ARG JAR_FILE=build/libs/*.jar
