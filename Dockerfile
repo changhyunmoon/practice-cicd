@@ -1,6 +1,5 @@
 # 1. Base 이미지 설정 (Java 21 환경)
-FROM openjdk:21-jdk-slim
-
+FROM eclipse-temurin:21-jdk-jammy
 # 2. 작업 디렉토리 생성
 WORKDIR /app
 
