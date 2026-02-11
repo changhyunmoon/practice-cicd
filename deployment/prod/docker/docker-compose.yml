@@ -3,56 +3,34 @@ version: "3.8"
 services:
   # Blue 환경 (8081 포트)
   blue:
-    image: ${DOCKERHUB_USERNAME}/mam-server:${IMAGE_TAG:-latest}
-    container_name: mam-blue
+    image: ${DOCKERHUB_USERNAME}/bam-match-server:latest
+    container_name: bam-match-blue
+    restart: unless-stopped
     environment:
+      - TZ=Asia/Seoul
       - SPRING_PROFILES_ACTIVE=prod
-      # 자바 메모리 옵션 추가 (메모리 부족 방지)
-      - JAVA_OPTS=-Xms256M -Xmx512M
     ports:
       - "8081:8080"
     env_file:
       - ../.env
-    restart: always
     networks:
-      - mam-network
-    # 리소스 제한 (EC2 프리티어 권장 설정)
-    deploy:
-      resources:
-        limits:
-          memory: 700M
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-      start_period: 40s # Spring 기동 시간을 고려해 조금 더 넉넉히 설정
+      - bam-match-network
 
   # Green 환경 (8082 포트)
   green:
-    image: ${DOCKERHUB_USERNAME}/mam-server:${IMAGE_TAG:-latest}
-    container_name: mam-green
+    image: ${DOCKERHUB_USERNAME}/bam-match-server:latest
+    container_name: bam-match-green
+    restart: unless-stopped
     environment:
+      - TZ=Asia/Seoul
       - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_OPTS=-Xms256M -Xmx512M
     ports:
       - "8082:8080"
     env_file:
       - ../.env
-    restart: always
     networks:
-      - mam-network
-    deploy:
-      resources:
-        limits:
-          memory: 700M
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-      start_period: 40s
+      - bam-match-network
 
 networks:
-  mam-network:
-    driver: bridge
+  bam-match-network:
+    external: true
