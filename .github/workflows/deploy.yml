@@ -1,4 +1,4 @@
-name: MAM Blue-Green CD
+name: BAM Blue-Green CD
 
 on:
   push:
