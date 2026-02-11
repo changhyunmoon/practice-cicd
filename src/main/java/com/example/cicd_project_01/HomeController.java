@@ -18,7 +18,7 @@ public class HomeController {
     }
 
     @GetMapping("/minjikim")
-    public String main(){
+    public String minji(){
         return "김민지 잠만보";
     }
 }
