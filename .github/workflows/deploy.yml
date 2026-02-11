@@ -71,9 +71,13 @@ jobs:
             mkdir -p ~/deployment/prod
             cd ~/deployment/prod
             
-            # .env 파일 생성 (Docker Compose에서 변수 사용 위함)
-            echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > .env
-            echo "${{ secrets.ENV_PROD }}" >> .env
+            # 1. .env 파일을 docker-compose.yml이 있는 폴더에 생성 (중요!)
+            echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > ./docker/.env
+            echo "${{ secrets.ENV_PROD }}" >> ./docker/.env
+            
+            # 2. 확인용 로그 (아이디가 잘 들어갔는지 체크)
+            echo "Checking .env file location:"
+            ls -al ./docker/.env
             
             # 권한 부여 및 실행
             chmod +x deploy.sh
